@@ -26,7 +26,7 @@ public class RatingTest extends BaseTest{
             Assert.assertTrue(ratingInRange(rating));
         }
     }
-    public boolean ratingInRange(float rating){
+    private boolean ratingInRange(float rating){
         return rating >= 0.0f && rating <= 5.0f;
     }
 }

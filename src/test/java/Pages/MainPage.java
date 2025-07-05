@@ -7,6 +7,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -87,8 +88,8 @@ public class MainPage {
 
     public void login(){
         loginButton.click();
-
-        phoneNumber.setValue("+7 981 435-34-41");
+        Dotenv dotenv = Dotenv.configure().directory("./src/test/java/").load();
+        phoneNumber.setValue(dotenv.get("PHONE_TO_LOG_IN"));
         sendCode.click();
         StringBuilder code = getNoty();
         for (int i = 0; i < 6; i++){

@@ -25,7 +25,7 @@ abstract public class BaseTest {
 
     public ProductPage openAppAndGoToProduct(){
         MainPage mainPage = new MainPage(BASE_URL);
-        //mainPage.login();
+        mainPage.login();
         ProductPage productPage = mainPage.search(ARTICLE);
         LoadingPage loadingPage = new LoadingPage();
         loadingPage.waitUntilLoad();

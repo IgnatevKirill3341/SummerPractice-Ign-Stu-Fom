@@ -52,6 +52,8 @@ public class ProductPage {
     public SearchPage search(String search_str){
         searchBoxInput.setValue(search_str);
         buttonSearch.click();
+        LoadingPage loadingPage = new LoadingPage();
+        loadingPage.waitUntilLoad();
         SelenideElement overlay = $x("//div[@class='overlay overlay--search hide-mobile']");
         Selenide.executeJavaScript("arguments[0].remove();", overlay);
         return new SearchPage();
