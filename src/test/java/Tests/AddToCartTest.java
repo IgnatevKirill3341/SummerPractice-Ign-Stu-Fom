@@ -1,18 +1,45 @@
 package Tests;
 
+import Base.BaseTest;
 import Pages.CartPage;
 import Pages.ProductPage;
-import com.codeborne.selenide.Condition;
 import org.junit.Assert;
 import org.junit.Test;
-
-public class AddToCartTest extends BaseTest{
-    private final String product_name = "Бейсболка белая Nike женские мужские Кепка с вышивкой";
+/**
+ * Тестовый класс для проверки функционала добавления товара в корзину.
+ * Наследует базовую функциональность тестового окружения от {@link BaseTest}.
+ * 
+ * Содержит один тестовый метод, который проверяет:
+ * 
+ *   Добавление товара в корзину со страницы товара
+ *   Переход в корзину
+ *   Наличие добавленного товара в корзине
+ * 
+ */
+public class AddToCartTest extends BaseTest {
+    /**
+     * Тест добавления товара в корзину.
+     * 
+     * Шаги теста:
+     * 
+     *   Получаем страницу товара через {@link BaseTest#getProductPage()}
+     *   Добавляем товар в корзину через метод {@link ProductPage#addToCart()}
+     *   Переходим в корзину через {@link ProductPage#goToCart()}
+     *   Создаем экземпляр страницы корзины через {@link ProductPage#openNewPage(Class)}
+     *   Проверяем наличие товара в корзине через {@link CartPage#isProductInCart()}
+     * 
+     *
+     * Тест использует проверку:
+     * 
+     *   Assert.assertTrue() для подтверждения наличия товара в корзине
+     * 
+     */
     @Test
     public void addToCartTest(){
-        ProductPage productPage = openAppAndGoToProduct();
-        CartPage cartPage = productPage.addAndGoToCart();
-        Assert.assertEquals(product_name, cartPage.getProductName());
-        cartPage.getProduct().shouldBe(Condition.visible);
+        ProductPage productPage = getProductPage();
+        productPage.addToCart();
+        productPage.goToCart();
+        CartPage cartPage = productPage.openNewPage(CartPage.class);
+        Assert.assertTrue(cartPage.isProductInCart());
     }
 }

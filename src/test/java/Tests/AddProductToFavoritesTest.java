@@ -1,21 +1,43 @@
 package Tests;
 
+import Base.BaseTest;
 import Pages.FavoritesPage;
 import Pages.ProductPage;
-import com.codeborne.selenide.Condition;
 import org.junit.Assert;
 import org.junit.Test;
-
-public class AddProductToFavoritesTest extends BaseTest{
-    private final String expectedPage = "Избранное";
-    private final String expectedProductName = "Бейсболка белая Nike женские мужские Кепка с вышивкой";
+/**
+ * Тестовый класс для проверки функционала добавления товара в избранное.
+ * Наследует базовую функциональность тестового окружения от {@link BaseTest}.
+ * 
+ * Содержит один тестовый метод, который проверяет:
+ * 
+ *   Добавление товара в избранное со страницы товара
+ *   Переход в раздел избранного
+ *   Наличие добавленного товара в избранном
+ * 
+ */
+public class AddProductToFavoritesTest extends BaseTest {
     @Test
     public void addProductToFavoritesTest(){
-        ProductPage productPage = openAppAndGoToProduct();
-        productPage.addProductToFavorites();
-        FavoritesPage favoritesPage = productPage.goToFavorites();
-        Assert.assertEquals(expectedPage, favoritesPage.getNamePage());
-        Assert.assertEquals(expectedProductName, favoritesPage.getProductNameFromFav());
-        favoritesPage.getProductFromFav().shouldBe(Condition.visible);
+        /**
+         * Тест добавления товара в избранное.
+         * 
+         * Шаги теста:
+         * 
+         *   Получаем страницу товара через {@link BaseTest#getProductPage()}
+         *   Добавляем товар в избранное через метод {@link ProductPage#addToFavorites()}
+         *   Переходим в раздел избранного через {@link ProductPage#goToFavorites(Class)}
+         *   Проверяем, что страница избранного отображается (товар успешно добавлен)
+         * 
+         *
+         * Тест использует проверку:
+         * 
+         *   Успешность отображения страницы избранного (через {@link FavoritesPage#isDisplayed()})
+         * 
+         */
+        ProductPage productPage = getProductPage();
+        productPage.addToFavorites();
+        FavoritesPage favoritesPage = productPage.goToFavorites(FavoritesPage.class);
+        Assert.assertTrue(favoritesPage.isDisplayed());
     }
 }

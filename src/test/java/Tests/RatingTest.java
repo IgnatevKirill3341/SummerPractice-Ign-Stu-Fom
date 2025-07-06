@@ -1,31 +1,85 @@
 package Tests;
 
+import Base.BaseTest;
+import Pages.MainPage;
 import Pages.ProductPage;
 import Pages.SearchPage;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
 import org.junit.Assert;
 import org.junit.Test;
-
-public class RatingTest extends BaseTest{
-    private final String searchStr = "бейсболка";
+/**
+ * Тестовый класс для проверки функционала рейтинга товаров.
+ * Наследует базовую функциональность тестового окружения от {@link BaseTest}.
+ * 
+ * Содержит два тестовых метода, которые проверяют:
+ * 
+ *   Корректность отображения и значения рейтинга на странице товара
+ *   Корректность работы фильтра по рейтингу на странице поиска
+ * 
+ * Также включает вспомогательный метод для проверки диапазона значений рейтинга.
+ */
+public class RatingTest extends BaseTest {
+    /**
+     * Поисковый запрос для тестирования фильтрации по рейтингу.
+     */
+    private final static String searchStr = "бейсболка";
+    /**
+     * Тест проверки рейтинга на странице товара.
+     * 
+     * Шаги теста:
+     * 
+     *   Получаем страницу товара через {@link BaseTest#getProductPage()}
+     *   Проверяем отображение рейтинга через {@link ProductPage#isRatingDisplayed()}
+     *   Проверяем, что значение рейтинга находится в допустимом диапазоне [0.0, 5.0]
+     * 
+     *
+     * Тест использует проверки:
+     * 
+     *   Assert.assertTrue() для видимости рейтинга
+     *   Assert.assertTrue() с вызовом ratingInRange() для проверки значения
+     * 
+     */
     @Test
     public void productRatingTest(){
-        ProductPage productPage = openAppAndGoToProduct();
-        SelenideElement rating = productPage.getRating().shouldBe(Condition.visible);
-        float float_rating = Float.parseFloat(rating.getText().replace(',', '.'));
-        Assert.assertTrue(ratingInRange(float_rating));
+        ProductPage productPage = getProductPage();
+        Assert.assertTrue(productPage.isRatingDisplayed());
+        Assert.assertTrue(ratingInRange(productPage.getRating()));
     }
+    /**
+     * Тест проверки фильтрации по рейтингу на странице поиска.
+     * 
+     * Шаги теста:
+     * 
+     *   Выполняем поиск товаров через {@link BaseTest#search(String)}
+     *   Открываем страницу результатов поиска
+     *   Открываем выпадающее меню сортировки
+     *   Выбираем фильтр по рейтингу (предположительно)
+     *   Получаем рейтинги первых N товаров
+     *   Проверяем, что все рейтинги находятся в допустимом диапазоне
+     * 
+     *
+     * Тест использует проверку:
+     * 
+     *   Assert.assertTrue() для каждого рейтинга в цикле
+     * 
+     */
     @Test
     public void filterRatingTest(){
-        ProductPage productPage = openAppAndGoToProduct();
-        SearchPage searchPage = productPage.search(searchStr);
-        searchPage.clickOnDropdownAndChooseRating();
+        MainPage mainPage = search(searchStr);
+
+        SearchPage searchPage = mainPage.openNewPage(SearchPage.class);
+        searchPage.openDropdown();
+        searchPage.chooseFilter();
         float[] ratings = searchPage.getRatings();
         for (float rating : ratings) {
             Assert.assertTrue(ratingInRange(rating));
         }
     }
+    /**
+     * Вспомогательный метод для проверки, что рейтинг находится в допустимом диапазоне.
+     *
+     * @param rating Проверяемое значение рейтинга
+     * @return {@code true} если рейтинг в диапазоне [0.0, 5.0], {@code false} в противном случае
+     */
     private boolean ratingInRange(float rating){
         return rating >= 0.0f && rating <= 5.0f;
     }
