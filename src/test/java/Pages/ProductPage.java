@@ -3,20 +3,16 @@ package Pages;
 import Base.BasePage;
 import Elements.Basis.*;
 import Elements.Composite.RecommendedProductsElement;
-import Elements.Composite.SearchElement;
-import com.codeborne.selenide.Selenide;
 
 /**
  * Класс, представляющий страницу товара в веб-приложении.
  * Наследует функциональность от {@link BasePage} и предоставляет методы для взаимодействия со всеми элементами страницы товара.
- * 
  * Инкапсулирует:
  *   Основную информацию о товаре (название, цена)
  *   Изображение товара
  *   Элементы управления (добавление в корзину/избранное)
  *   Рейтинг товара
  *   Систему быстрого заказа
- * 
  * Содержит бизнес-логику для основных сценариев работы со страницей товара.
  */
 public class ProductPage extends BasePage {
@@ -31,8 +27,9 @@ public class ProductPage extends BasePage {
     private final static String A_DATA_WBA_HEADER_NAME_GO_TO_FAVORITES = "Favorites";
     private final static String SPAN_RATING_CLASS = "product-review__rating address-rate-mini address-rate-mini--sm";
     private final static String BUTTON_BUY_IN_ONE_CLICK_CLASS = "order__button order__btn-buy btn-base";
-    private final static String SEARCH_DIV_CLASS = "search-catalog__block search-catalog--active";
     private final static String RECOMMENDATIONS_CLASS = "j-b-recommended-goods-wrapper goods-carousel";
+    private final static String CLASS_OPEN_REVIEWS = "user-opinion__text";
+
     // Элементы страницы товара
     private final HElement productName = HElement.byClass(H_PRODUCT_NAME_CLASS);
     private final SpanElement productPrice = SpanElement.byClass(SPAN_PRODUCT_PRICE_CLASS, 3);
@@ -44,11 +41,10 @@ public class ProductPage extends BasePage {
     private final AElement goToFavorites = AElement.byDataWbaHeaderName(A_DATA_WBA_HEADER_NAME_GO_TO_FAVORITES);
     private final SpanElement rating = SpanElement.byClass(SPAN_RATING_CLASS);
     private final ButtonElement buyInOneCLick = ButtonElement.byClass(BUTTON_BUY_IN_ONE_CLICK_CLASS,1 );
-    private final SearchElement searchElement = SearchElement.byClass(SEARCH_DIV_CLASS);
     private final RecommendedProductsElement recommendedProductsElement = RecommendedProductsElement.byClass(RECOMMENDATIONS_CLASS);
+    private final AElement openReviews = AElement.byClass(CLASS_OPEN_REVIEWS);
     /**
      * Конструктор страницы товара.
-     * 
      * Инициализирует страницу, передавая в базовый класс:
      * - Класс главной страницы ({@link MainPage}) как контекст
      * - XPath основного тега страницы ({@code <main>}) как базовый элемент
@@ -171,20 +167,56 @@ public class ProductPage extends BasePage {
     public <T extends BasePage> T openNewPage(Class<T> className){
         return page(className);
     }
-    public boolean hTwoIsVisible(){
-
-        return recommendedProductsElement.hTwoIsVisible();
+    /**
+     * Скроллит до блока рекомендованных товаров.
+     */
+    public void scrollToRecommends(){
+        recommendedProductsElement.scrollToRecommends();
     }
-    public boolean cardIsVisible(){
+    /**
+     * Проверяет, видна ли первая рекомендованная карточка товара.
+     *
+     * @return {@code true}, если карточка видима
+     */
+    public boolean isCardVisible(){
         return recommendedProductsElement.cardIsVisible();
     }
-    public <T extends BasePage> T goToCard(Class<T> className){
+    /**
+     * Проверяет видимость блока рекомендованных товаров.
+     *
+     * @return {@code true}, если блок рекомендаций отображается
+     */
+    public boolean isRecommendedProductsVisible(){
+        return recommendedProductsElement.isDisplayed();
+    }
+    /**
+     * Переходит на страницу товара из раздела рекомендованных товаров.
+     *
+     * @param className Класс целевой страницы товара
+     * @param <T>       Тип возвращаемой страницы
+     * @return Экземпляр страницы товара
+     */
+    public <T extends BasePage> T goToProduct(Class<T> className){
         recommendedProductsElement.goToProduct();
         return page(className);
     }
-    public void scroll(){
-        Selenide.executeJavaScript("window.scrollBy(0,1500)");
+    /**
+     * Возвращает название товара из первого рекомендованного блока.
+     *
+     * @return Название рекомендованного продукта
+     */
+    public String getCardName(){
+        return recommendedProductsElement.getCardName();
     }
-
-
+    /**
+     * Открывает раздел отзывов о товаре.
+     *
+     * @param className Класс страницы отзывов
+     * @param <T>       Тип страницы отзывов
+     * @return Экземпляр страницы отзывов
+     */
+    public <T extends BasePage> T openReviews(Class<T> className){
+        openReviews.click();
+        return page(className);
+    }
 }

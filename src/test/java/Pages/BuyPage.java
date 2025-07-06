@@ -1,7 +1,6 @@
 package Pages;
 
 import Base.BasePage;
-import Base.BaseTest;
 import Elements.Basis.ButtonElement;
 import Elements.Basis.DivElement;
 import Elements.Basis.HElement;

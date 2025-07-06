@@ -5,7 +5,6 @@ import Elements.Composite.ProductInCartElement;
 /**
  * Класс, представляющий страницу корзины покупок в веб-приложении.
  * Наследует функциональность от {@link BasePage} и предоставляет методы для управления товарами в корзине.
- * 
  * Инкапсулирует взаимодействие с элементами товаров через композитный {@link ProductInCartElement}.
  */
 public class CartPage extends BasePage {

@@ -8,7 +8,7 @@ import com.codeborne.selenide.Selenide;
  * Предоставляет метод для программного удаления элемента автодополнения и фабричный метод для создания экземпляров.
  */
 public class AutocompliteElement extends BaseElement {
-    private static final String CLASS_XPATH = "//div[@class='%s']"; //div[@class='overlay overlay--search hide-mobile']
+    private static final String CLASS_XPATH = "//div[@class='%s']";
     /**
      * Конструктор для создания элемента автодополнения по XPath-шаблону и значению класса.
      *

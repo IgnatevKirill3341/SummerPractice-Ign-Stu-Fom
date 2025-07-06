@@ -8,9 +8,7 @@ import org.junit.Test;
 /**
  * Тестовый класс для проверки функционала изменения количества товара в корзине.
  * Наследует базовую функциональность тестового окружения от {@link BaseTest}.
- * 
  * Содержит три тестовых метода, которые проверяют:
- * 
  *   Увеличение количества товара в корзине
  *   Проверку начального количества товара
  *   Удаление товара из корзины
@@ -27,9 +25,7 @@ public class ChangeProductCountTest extends BaseTest {
     private final static String expectedProductCountAfterDecrease = "1";
     /**
      * Тест увеличения количества товара в корзине.
-     * 
      * Шаги теста:
-     * 
      *   Получаем страницу товара через {@link BaseTest#getProductPage()}
      *   Добавляем товар в корзину через {@link ProductPage#addToCart()}
      *   Переходим в корзину через {@link ProductPage#goToCart()}
@@ -50,9 +46,7 @@ public class ChangeProductCountTest extends BaseTest {
     }
     /**
      * Тест проверки начального количества товара в корзине.
-     * 
      * Шаги теста:
-     * 
      *   Получаем страницу товара через {@link BaseTest#getProductPage()}
      *   Добавляем товар в корзину через {@link ProductPage#addToCart()}
      *   Переходим в корзину через {@link ProductPage#goToCart()}
@@ -70,9 +64,7 @@ public class ChangeProductCountTest extends BaseTest {
     }
     /**
      * Тест удаления товара из корзины.
-     * 
      * Шаги теста:
-     * 
      *   Получаем страницу товара через {@link BaseTest#getProductPage()}
      *   Добавляем товар в корзину через {@link ProductPage#addToCart()}
      *   Переходим в корзину через {@link ProductPage#goToCart()}

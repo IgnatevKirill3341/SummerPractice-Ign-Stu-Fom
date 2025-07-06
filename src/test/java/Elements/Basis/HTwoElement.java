@@ -2,7 +2,11 @@ package Elements.Basis;
 
 import Base.BaseElement;
 import com.codeborne.selenide.Selenide;
-
+/**
+ * Обёртка для HTML-элемента <h2>, предоставляющая методы поиска и взаимодействия.
+ * Наследует базовую функциональность от {@link BaseElement}.
+ * Поддерживает различные способы локализации: по id, тексту, классу, типу и aria-label.
+ */
 public class HTwoElement extends BaseElement {
     private static final String ID_XPATH = "//h2[@id='%s']";
     private static final String TEXT_XPATH = "//h2[contains(text(),'%s')]";
@@ -28,10 +32,6 @@ public class HTwoElement extends BaseElement {
      */
     public HTwoElement(String xpathTemplate, String attributeValue, int index){
         super(xpathTemplate, attributeValue, index);
-    }
-    public void scroll(){
-
-
     }
     /**
      * Получает текстовое содержимое элемента заголовка.

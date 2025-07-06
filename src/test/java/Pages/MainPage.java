@@ -4,7 +4,6 @@ import Base.BasePage;
 import Elements.Basis.AElement;
 import Elements.Basis.ButtonElement;
 import Elements.Basis.InputElement;
-import Elements.Basis.SpanElement;
 import Elements.Composite.CardElement;
 import Elements.Composite.LoadingElement;
 import Elements.Composite.SearchElement;
@@ -27,23 +26,21 @@ import utils.GetNoty;
 public class MainPage extends BasePage {
     private final static String SEARCH_DIV_CLASS = "search-catalog__block search-catalog--active";
     private final static String MAIN_TAG_XPATH = "//main";
-    private final static String CARD_DIV_CLASS = "product-card__wrapper";
+    private final static String CARD_ARTICLE_CLASS = "product-card j-product-item j-analitics-item   ";
     private final static String LOADING_DIV_CLASS = "general-preloader";
     private final static String A_LOGIN_HYPERLINK_LINK = "navbar-pc__link j-main-login j-wba-header-item";
     private final static String PHONE_NUMBER_INPUTMODE = "tel";
     private final static String BUTTON_SEND_CODE_ID = "requestCode";
     private final static String CODE_INPUTS_CLASS = "char-input__item j-b-charinput";
-    private final static String SPAN_PROFILE_CLASS= "navbar-pc__icon navbar-pc__icon--profile";
     private final static String CLOSE_ADVERTISEMENT_BUTTON = "_close_1b9nk_55 popup__close close";
     private final static int loginInputCount = 6;
     // Элементы страницы
     private final SearchElement searchElement = SearchElement.byClass(SEARCH_DIV_CLASS);
-    private final CardElement cardElement = CardElement.byClass(CARD_DIV_CLASS);
+    private final CardElement cardElement = CardElement.byClass(CARD_ARTICLE_CLASS);
     private final LoadingElement loadingElement = LoadingElement.byClass(LOADING_DIV_CLASS);
     private final AElement loginHyperlink = AElement.byClass(A_LOGIN_HYPERLINK_LINK);
     private final InputElement phoneNumber = InputElement.byInputMode(PHONE_NUMBER_INPUTMODE);
     private final ButtonElement sendCode = ButtonElement.byId(BUTTON_SEND_CODE_ID);
-    private final SpanElement profileHyperlink = SpanElement.byClass(SPAN_PROFILE_CLASS);
     private final ButtonElement closeAdvertisement = ButtonElement.byClass(CLOSE_ADVERTISEMENT_BUTTON);
     /**
      * Конструктор главной страницы.
@@ -62,8 +59,8 @@ public class MainPage extends BasePage {
      * Проверяет, отображаются ли карточки товаров на странице.
      * Используется для подтверждения успешной загрузки главной страницы.
      */
-    public void isDisplayed(){
-         cardElement.isDisplayed();
+    public boolean isDisplayed(){
+        return cardElement.isDisplayed();
     }
     /**
      * Вводит поисковый запрос в поисковую систему.
@@ -122,7 +119,7 @@ public class MainPage extends BasePage {
         loginHyperlink.click();
 
         waitUntilLoad();
-        phoneNumber.setValue(dotenv.get("PHONE_TO_LOG_IN_2"));
+        phoneNumber.setValue(dotenv.get("PHONE_TO_LOG_IN_1"));
         sendCode.click();
         StringBuilder code = GetNoty.getNoty();
 
@@ -138,4 +135,5 @@ public class MainPage extends BasePage {
     public void closeAdvertisement(){
         closeAdvertisement.click();
     }
+
 }

@@ -1,7 +1,16 @@
 package Elements.Basis;
 
 import Base.BaseElement;
+import com.codeborne.selenide.Condition;
 
+import java.time.Duration;
+
+/**
+ * Класс, представляющий элемент div на веб-странице.
+ * Наследует базовую функциональность от {@link BaseElement} и предоставляет специфичные для div операции.
+ * Предоставляет методы для работы с текстовым содержимым и проверки появления элемента,
+ * а также фабричные методы для создания экземпляров с различными стратегиями поиска.
+ */
 public class DivElement extends BaseElement {
     private static final String ID_XPATH = "//div[@id='%s']";
     private static final String TEXT_XPATH = "//div[contains(text(),'%s')]";
@@ -9,16 +18,41 @@ public class DivElement extends BaseElement {
     private static final String TYPE_XPATH  = "//div[@type='%s']";
     private static final String ARIA_LABEL_XPATH = "//div[@aria-label='%s']";
     private static final String DATA_WBA_HEADER_NAME = "//div[@data-wba-header-name='%s']";
-
+    /**
+     * Конструктор для создания div-элемента по XPath-шаблону и значению атрибута.
+     * Использует первый элемент в коллекции.
+     *
+     * @param xpathTemplate   XPath-шаблон с плейсхолдером для значения
+     * @param attributeValue  Значение для подстановки в шаблон
+     */
     public DivElement(String xpathTemplate, String attributeValue){
         super(xpathTemplate, attributeValue);
     }
+    /**
+     * Конструктор для создания div-элемента по XPath-шаблону, значению атрибута и индексу.
+     *
+     * @param xpathTemplate   XPath-шаблон с плейсхолдером для значения
+     * @param attributeValue  Значение для подстановки в шаблон
+     * @param index           Индекс элемента в коллекции
+     */
     public DivElement(String xpathTemplate, String attributeValue, int index){
         super(xpathTemplate, attributeValue, index);
     }
-
+    /**
+     * Получает текстовое содержимое div-элемента.
+     *
+     * @return Видимый текст внутри элемента
+     */
     public String getText(){
         return element.getText();
+    }
+    /**
+     * Проверяет, появился ли элемент в течение заданного времени (10 секунд).
+     * Используется для ожидания появления динамически загружаемых элементов.
+     * @return {@code true} если элемент стал видимым в течение 10 секунд, {@code false} в противном случае
+     */
+    public boolean elementAppeared(){
+        return element.is(Condition.visible, Duration.ofSeconds(10));
     }
     // Ниже представлены фабричные методы для создания экземпляров с различными стратегиями поиска
 
@@ -127,4 +161,6 @@ public class DivElement extends BaseElement {
     public static DivElement byDataWbaHeaderName(String dataWbaHeaderName) {
         return new DivElement(DATA_WBA_HEADER_NAME, dataWbaHeaderName);
     }
+
+
 }
